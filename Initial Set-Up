@@ -1,0 +1,185 @@
+//Text-based Connect 4 game
+import java.util.Scanner;
+public class connectFour
+{
+	//|,-,◌,•
+	private static Scanner keyboard = new Scanner (System.in);
+	private static int turn = -1;
+	private static String name1;
+	private static String name2;
+	private static boolean game = true;
+	private static String[][] gameBoard = new String[8][15];
+	public static void opening()
+	{
+		System.out.print("Welcome to \"Connect 4\"!");
+		keyboard.nextLine();
+		System.out.print("Player 1, please enter your name: ");
+		name1 = keyboard.nextLine();
+		System.out.print("Player 2, please enter your name: ");
+		name2 = keyboard.nextLine();
+		System.out.println();
+	}
+	public static void createBoard()
+	{
+		for(int j = 0; j < 15; j++)
+		{
+			if(j % 2 == 0)
+				gameBoard[0][j] = "_";
+			else if (j % 2 == 1)
+				gameBoard[0][j] = " ";
+		}
+		for(int k = 1; k < 7; k++)
+		{
+			for(int j = 0; j < 15; j++)
+			{
+				if(j % 2 == 0)
+					gameBoard[k][j] = "|";
+				else if (j % 2 == 1)
+					gameBoard[k][j] = " ";
+			}
+		}
+		for(int j = 0; j < 15; j++)
+		{
+			if(j % 2 == 1) 
+				gameBoard[7][j] = "-";
+			else if (j % 2 == 0)
+				gameBoard[7][j] = " ";
+		}
+	}
+	public static boolean placePiece(int num)
+	{
+		int x = (num*2) - 1;
+		if(lowest(x) < 1 || num > 7 || num < 1)
+			return false;
+		if(turn % 2 == 0)
+			gameBoard[lowest(x)][x] = "◌";
+		else if(turn % 2 == 1)
+			gameBoard[lowest(x)][x] = "•";
+		return true;
+	}
+	public static int lowest(int num)
+	{
+		int low = 6;
+		while (gameBoard[low][num] != " ")
+			low--;
+		return low;
+	}
+	public static void print()
+	{
+		System.out.println(" 1 2 3 4 5 6 7 ");
+		for(int k = 0; k < 8; k++)
+		{
+			for(int j = 0; j < 15; j++)
+			{
+				System.out.print(gameBoard[k][j]);
+			}
+			if(k != 7)
+				System.out.println();
+		}
+	}
+	public static boolean win()
+	{
+		int col = 0;
+		int row = 0;
+		for(int x = 1; x < 15; x += 2)
+		{
+			for(int y = 1; y < 6; y++)
+			{
+				row = (x-1)/2;
+				col = y-1;
+				if(gameBoard[y][x] != " ")
+				{
+					if(row-4 >= 0 || col-4 >= 0)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y-1][x-1]) &&
+								gameBoard[y-1][x-1].equals(gameBoard[y-2][x-2]) &&
+								gameBoard[y-2][x-2].equals(gameBoard[y-3][x-3]))
+							return false;
+					}
+					if(row+4 <= 5 || col+4 <= 6)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y+1][x+1]) &&
+								gameBoard[y+1][x+1].equals(gameBoard[y+2][x+2]) &&
+								gameBoard[y+2][x+2].equals(gameBoard[y+3][x+3]))
+							return false;
+					}
+					if(row-4 >= 0 || col+4 <= 6)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y-1][x+1]) &&
+								gameBoard[y-1][x+1].equals(gameBoard[y-2][x+2]) &&
+								gameBoard[y-2][x+2].equals(gameBoard[y-3][x+3]))
+							return false;
+					}
+					if(row+4 <= 5 || col-4 >= 0)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y+1][x-1]) &&
+								gameBoard[y+1][x-1].equals(gameBoard[y+2][x-2]) &&
+								gameBoard[y+2][x-2].equals(gameBoard[y+3][x-3]))
+							return false;
+					}
+					if(row-4 >= 0)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y][x-1]) &&
+								gameBoard[y][x-1].equals(gameBoard[y][x-2]) &&
+								gameBoard[y][x-2].equals(gameBoard[y][x-3]))
+							return false;
+					}
+					if(col-4 >= 0)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y-1][x]) &&
+								gameBoard[y-1][x].equals(gameBoard[y-2][x]) &&
+								gameBoard[y-2][x].equals(gameBoard[y-3][x]))
+							return false;
+					}
+					if(row+4 >= 5)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y][x+1]) &&
+								gameBoard[y][x+1].equals(gameBoard[y][x+2]) &&
+								gameBoard[y][x+2].equals(gameBoard[y][x+3]))
+							return false;
+					}
+					if(col+4 >= 6)
+					{
+						if(gameBoard[y][x].equals(gameBoard[y+1][x]) &&
+								gameBoard[y+1][x].equals(gameBoard[y+2][x]) &&
+								gameBoard[y+2][x].equals(gameBoard[y+3][x]))
+							return false;
+					}
+				}
+			}
+		}
+		return true;
+	}
+	public static void main (String [] args)
+	{
+		opening();
+		createBoard();
+		while(game == true)
+		{
+			System.out.println();
+			print();
+			System.out.println("\n");
+			turn++;
+			if(win() == false)
+			{
+				System.out.println("Game Over.");
+				if(turn % 2 == 0)
+					System.out.print(name2 + " WINS!");
+				if(turn % 2 == 1)
+					System.out.print(name1 + " WINS!");
+				break;
+			}
+			if(turn % 2 == 0)
+				System.out.print(name1 + ", choose a column to place your piece: ");
+			else if(turn % 2 == 1)
+				System.out.print(name2 + ", choose a column to place your piece: ");
+			while(!placePiece(keyboard.nextInt()))
+			{
+				if(turn % 2 == 0)
+					System.out.print("That is an invalid move. \n" + name1 + ", choose a column to place your piece: ");
+				else if(turn % 2 == 1)
+					System.out.print("That is an invalid move. \n" + name2 + ", choose a column to place your piece: ");
+			}
+		}
+	}
+}
