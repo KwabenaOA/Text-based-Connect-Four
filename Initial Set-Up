@@ -81,68 +81,68 @@ public class connectFour
 	{
 		int col = 0;
 		int row = 0;
-		for(int x = 1; x < 15; x += 2)
+		for(int x = 1; x < 15; x += 2)//1,3,5,7,9,11,13
 		{
-			for(int y = 1; y < 6; y++)
+			for(int y = 6; y > 0; y--)//6,5,4,3,2,1
 			{
-				row = (x-1)/2;
-				col = y-1;
+				col = (x-1)/2;//range: 0 to 6 (0,1,2,3,4,5,6)
+				row = 6-y;//range: 0 to 5 (0,1,2,3,4,5)
 				if(gameBoard[y][x] != " ")
 				{
-					if(row-4 >= 0 || col-4 >= 0)
+					if(row-3 >= 0 && col-3 >= 0)//DIAGONAL top-right::bottom-left
 					{
-						if(gameBoard[y][x].equals(gameBoard[y-1][x-1]) &&
-								gameBoard[y-1][x-1].equals(gameBoard[y-2][x-2]) &&
-								gameBoard[y-2][x-2].equals(gameBoard[y-3][x-3]))
+						if(gameBoard[y][x].equals(gameBoard[y+1][x-2]) &&
+								gameBoard[y+1][x-2].equals(gameBoard[y+2][x-4]) &&
+								gameBoard[y+2][x-4].equals(gameBoard[y+3][x-6]))
 							return false;
 					}
-					if(row+4 <= 5 || col+4 <= 6)
+					if(row+3 <= 5 && col+3 <= 6)//DIAGONAL bottom-left::top-right
 					{
-						if(gameBoard[y][x].equals(gameBoard[y+1][x+1]) &&
-								gameBoard[y+1][x+1].equals(gameBoard[y+2][x+2]) &&
-								gameBoard[y+2][x+2].equals(gameBoard[y+3][x+3]))
+						if(gameBoard[y][x].equals(gameBoard[y-1][x+2]) &&
+								gameBoard[y-1][x+2].equals(gameBoard[y-2][x+4]) &&
+								gameBoard[y-2][x+4].equals(gameBoard[y-3][x+6]))
 							return false;
 					}
-					if(row-4 >= 0 || col+4 <= 6)
+					if(row-3 >= 0 && col+3 <= 6)//DIAGONAL top-left::bottom-right
 					{
-						if(gameBoard[y][x].equals(gameBoard[y-1][x+1]) &&
-								gameBoard[y-1][x+1].equals(gameBoard[y-2][x+2]) &&
-								gameBoard[y-2][x+2].equals(gameBoard[y-3][x+3]))
+						if(gameBoard[y][x].equals(gameBoard[y+1][x+2]) &&
+								gameBoard[y+1][x+2].equals(gameBoard[y+2][x+4]) &&
+								gameBoard[y+2][x+4].equals(gameBoard[y+3][x+6]))
 							return false;
 					}
-					if(row+4 <= 5 || col-4 >= 0)
+					if(row+3 <= 5 && col-3 >= 0)//DIAGONAL bottom-right::top-left
 					{
-						if(gameBoard[y][x].equals(gameBoard[y+1][x-1]) &&
-								gameBoard[y+1][x-1].equals(gameBoard[y+2][x-2]) &&
-								gameBoard[y+2][x-2].equals(gameBoard[y+3][x-3]))
+						if(gameBoard[y][x].equals(gameBoard[y-1][x-2]) &&
+								gameBoard[y-1][x-2].equals(gameBoard[y-2][x-4]) &&
+								gameBoard[y-2][x-4].equals(gameBoard[y-3][x-6]))
 							return false;
 					}
-					if(row-4 >= 0)
+					if(col-3 >= 0)//HORIZONTAL right::left
 					{
-						if(gameBoard[y][x].equals(gameBoard[y][x-1]) &&
-								gameBoard[y][x-1].equals(gameBoard[y][x-2]) &&
-								gameBoard[y][x-2].equals(gameBoard[y][x-3]))
+						if(gameBoard[y][x].equals(gameBoard[y][x-2]) &&
+								gameBoard[y][x-2].equals(gameBoard[y][x-4]) &&
+								gameBoard[y][x-4].equals(gameBoard[y][x-6]))
 							return false;
 					}
-					if(col-4 >= 0)
-					{
-						if(gameBoard[y][x].equals(gameBoard[y-1][x]) &&
-								gameBoard[y-1][x].equals(gameBoard[y-2][x]) &&
-								gameBoard[y-2][x].equals(gameBoard[y-3][x]))
-							return false;
-					}
-					if(row+4 >= 5)
-					{
-						if(gameBoard[y][x].equals(gameBoard[y][x+1]) &&
-								gameBoard[y][x+1].equals(gameBoard[y][x+2]) &&
-								gameBoard[y][x+2].equals(gameBoard[y][x+3]))
-							return false;
-					}
-					if(col+4 >= 6)
+					if(row-3 >= 0)//VERTICAL top::bottom
 					{
 						if(gameBoard[y][x].equals(gameBoard[y+1][x]) &&
 								gameBoard[y+1][x].equals(gameBoard[y+2][x]) &&
 								gameBoard[y+2][x].equals(gameBoard[y+3][x]))
+							return false;
+					}
+					if(col+3 <= 6)//HORIZONTAL left::right
+					{
+						if(gameBoard[y][x].equals(gameBoard[y][x+2]) &&
+								gameBoard[y][x+2].equals(gameBoard[y][x+4]) &&
+								gameBoard[y][x+4].equals(gameBoard[y][x+6]))
+							return false;
+					}
+					if(row+3 <= 5)//VERTICAL bottom::top
+					{
+						if(gameBoard[y][x].equals(gameBoard[y-1][x]) &&
+								gameBoard[y-1][x].equals(gameBoard[y-2][x]) &&
+								gameBoard[y-2][x].equals(gameBoard[y-3][x]))
 							return false;
 					}
 				}
