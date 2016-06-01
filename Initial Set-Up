@@ -49,7 +49,7 @@ public class connectFour
 	public static boolean placePiece(int num)
 	{
 		int x = (num*2) - 1;
-		if(lowest(x) < 1 || num > 7 || num < 1)
+		if(num > 7 || num < 1 || lowest(x) < 1)
 			return false;
 		if(turn % 2 == 0)
 			gameBoard[lowest(x)][x] = "◌";
@@ -162,18 +162,18 @@ public class connectFour
 			turn++;
 			if(win() == false)
 			{
-				System.out.println("Game Over.");
+				System.out.println("GAME OVER.");
 				if(turn % 2 == 0)
-					System.out.print(name2 + " WINS!");
+					System.out.print(name2 + " wins!");
 				if(turn % 2 == 1)
-					System.out.print(name1 + " WINS!");
+					System.out.print(name1 + " wins!");
 				break;
 			}
 			if(turn % 2 == 0)
 				System.out.print(name1 + ", choose a column to place your piece: ");
 			else if(turn % 2 == 1)
 				System.out.print(name2 + ", choose a column to place your piece: ");
-			while(!placePiece(keyboard.nextInt()))
+			while(!placePiece((int)(keyboard.nextDouble())))
 			{
 				if(turn % 2 == 0)
 					System.out.print("That is an invalid move. \n" + name1 + ", choose a column to place your piece: ");
